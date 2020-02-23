@@ -26,6 +26,21 @@ implementation
 uses
   SysUtils, StrUtils;
 
+procedure Log(const ALine: string; const ARewrite: boolean = FALSE);
+var
+  LFilename: TFilename;
+  LFile: TextFile;
+begin
+  LFilename := ChangeFileExt({$I %FILE%}, '.log');
+  Assign(LFile, LFilename);
+  if ARewrite or not FileExists(LFileName) then
+    Rewrite(LFile)
+  else
+    Append(LFile);
+  WriteLn(LFile, ALine);
+  Close(LFile);
+end;
+
 const
   CMaxMoves = 200;
   CMaxPieces = 16;
@@ -127,7 +142,12 @@ end;
 
 function StrToSquare(const AStr: string): integer;
 begin
-  result := 10 * (Ord(AStr[1]) - Ord('a') + 2) + Ord(AStr[2]) - Ord('1') + 2;
+  if Length(AStr) < 2 then
+  begin
+    result := CNone;
+    Log(Format({$I %LINE%} + ' Invalid value: "%s"', [AStr]));
+  end else
+    result := 10 * (Ord(AStr[1]) - Ord('a') + 2) + Ord(AStr[2]) - Ord('1') + 2;
 end;
 
 function PosToStr(const APos: TPosition): string;

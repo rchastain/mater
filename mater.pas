@@ -2,6 +2,21 @@
 uses
   SysUtils, MaterCore, CommandLine;
 
+procedure Log(const ALine: string; const ARewrite: boolean = FALSE);
+var
+  LFilename: TFilename;
+  LFile: TextFile;
+begin
+  LFilename := ChangeFileExt({$I %FILE%}, '.log');
+  Assign(LFile, LFilename);
+  if ARewrite or not FileExists(LFileName) then
+    Rewrite(LFile)
+  else
+    Append(LFile);
+  WriteLn(LFile, ALine);
+  Close(LFile);
+end;
+
 var
   LEpd: string;
   LDepth: integer;
@@ -30,8 +45,8 @@ begin
   if LNeedHelp then
     WriteLn(Concat(
       'Usage', LineEnding,
-      '  mater -position ''<epd>'' -moves <number> [-check]', LineEnding,
-      '  mater -p ''<epd>'' -m <number> [-c]'
+      '  mater -position {<epd>} -moves <number> [-check]', LineEnding,
+      '  mater -p {<epd>} -m <number> [-c]'
     ))
   else
   begin
