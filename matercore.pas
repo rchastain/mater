@@ -136,6 +136,7 @@ const
   CArrow: array[boolean] of string = ('', '<---');
   CColor: array[boolean] of string = ('White', 'Black');
   CBoard =
+    '' + LineEnding +
     '    A   B   C   D   E   F   G   H  ' + LineEnding +
     '  +---+---+---+---+---+---+---+---+' + LineEnding +
     '8 | %s | %s | %s | %s | %s | %s | %s | %s | %s' + LineEnding +
@@ -878,11 +879,13 @@ var
   LMoveDepth: integer;
   LActiveColor: integer;
   LMove: TMove;
+  LTime: cardinal;
 begin
   result := '';
+  LTime := GetTickCount64;
   if LoadPosition(AFen, LActiveColor) then
   begin
-    WriteLn(LineEnding, PosToStr(LPosition));
+    WriteLn(PosToStr(LPosition));
     WriteLn('Search mode: ', COption[ACheckOnly]);
     WriteLn('Maximum moves number: ', AMovesNumber);
     LNodes := 0;
@@ -897,6 +900,8 @@ begin
     begin
       result := FormatMove(LMove);
       WriteLn('Result: ', result);
+      LTime := GetTickCount64 - LTime;
+      WriteLn('Time elapsed: ', FormatDateTime('hh:nn:ss:zzz', LTime / (1000 * SECSPERDAY)));
     end;
   end;
 end;

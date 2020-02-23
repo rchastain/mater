@@ -4,15 +4,11 @@ uses
 
 procedure CheckExample(const AExpectedResult, AEpd: string; const ADepth: integer; const ACheckSequence: boolean = FALSE);
 var
-  LTime: cardinal;
   LResult: string;
 begin
-  LTime := GetTickCount64;
   LResult := SolveMate(AEpd, ADepth, ACheckSequence);
-  LTime := GetTickCount64 - LTime;
-  WriteLn('Time elapsed: ', FormatDateTime('hh:nn:ss:zzz', LTime / (1000 * SECSPERDAY)));
   if LResult <> AExpectedResult then
-    WriteLn('Unexpected result: ', LResult);
+    WriteLn('Unexpected result: "', LResult, '"');
 end;
 
 begin
