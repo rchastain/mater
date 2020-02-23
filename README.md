@@ -106,5 +106,5 @@ As you can see, *Mater* has two search modes: either he searches for all moves, 
 
 *Mater* expects at less two parameters: the position (in the EPD format) and the moves number. A third parameter can be used to change the search mode, so that only mates by consecutive checks are searched.
 
-    mater -position '3nn3/2p2p1k/1p1pp1p1/p2B3p/r2B2N1/7N/8/7K w KQkq -' -moves 12 -check
-    mater -p '3nn3/2p2p1k/1p1pp1p1/p2B3p/r2B2N1/7N/8/7K w KQkq -' -m 12 -c
+    mater -position {3nn3/2p2p1k/1p1pp1p1/p2B3p/r2B2N1/7N/8/7K w KQkq -} -moves 12 -check
+    mater -p {3nn3/2p2p1k/1p1pp1p1/p2B3p/r2B2N1/7N/8/7K w KQkq -} -m 12 -c
