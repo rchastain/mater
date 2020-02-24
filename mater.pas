@@ -51,6 +51,9 @@ begin
   else
   begin
     LResult := SolveMate(LEpd, LDepth, LCheck);;
-    WriteLn('Result: ', LResult);
+    if LResult = '' then
+      WriteLn('No mate found')
+    else
+      WriteLn('Result: ', LResult);
   end;
 end.

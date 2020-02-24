@@ -17,9 +17,16 @@ interface
 
 function SolveMate(
   const AFen: string;
-  const AMovesNumber: integer;
-  const ACheckOnly: boolean = FALSE
-): string;
+  const AMaxMovesNumber: integer;
+  const ACheckOnly: boolean;
+  var AMovesNumber: integer
+): string; overload;
+
+function SolveMate(
+  const AFen: string;
+  const AMaxMovesNumber: integer;
+  const ACheckOnly: boolean
+): string; overload;
 
 implementation
 
@@ -848,6 +855,7 @@ begin
   i := ADepth;
   while (i <= AMaxDepth) and not result do
   begin
+    WriteLn('Searching mate in ', i, '...');
     if FindMate(AColor, 1, i, AMove, ACheckOnly) then
     begin
       result := TRUE;
@@ -892,7 +900,7 @@ begin
       result := Concat(SquareToStr(FFrom), SquareToStr(FTo), ClassToStr(FClass));
 end;
 
-function SolveMate(const AFen: string; const AMovesNumber: integer; const ACheckOnly: boolean): string;
+function SolveMate(const AFen: string; const AMaxMovesNumber: integer; const ACheckOnly: boolean; var AMovesNumber: integer): string;
 const
   COption: array[boolean] of string = ('all moves', 'check sequence');
 var
@@ -907,12 +915,12 @@ begin
   begin
     WriteLn(PosToStr(LPosition));
     WriteLn('Search mode: ', COption[ACheckOnly]);
-    WriteLn('Maximum moves number: ', AMovesNumber);
+    WriteLn('Maximum moves number: ', AMaxMovesNumber);
     LNodes := 0;
     if SearchMate(
       LActiveColor,
       1,
-      AMovesNumber,
+      AMaxMovesNumber,
       LMoveDepth,
       LMove,
       ACheckOnly
@@ -922,8 +930,18 @@ begin
       WriteLn('Result: ', result);
       LTime := GetTickCount64 - LTime;
       WriteLn('Time elapsed: ', FormatDateTime('hh:nn:ss:zzz', LTime / (1000 * SECSPERDAY)));
-    end;
+      WriteLn('Nodes: ', LNodes);
+      AMovesNumber := LMoveDepth;
+    end else
+      WriteLn('No mate found in ', AMaxMovesNumber, '.');
   end;
+end;
+
+function SolveMate(const AFen: string; const AMaxMovesNumber: integer; const ACheckOnly: boolean): string;
+var
+  LMovesNumber: integer;
+begin
+  result := SolveMate(AFen, AMaxMovesNumber, ACheckOnly, LMovesNumber);
 end;
 
 const
