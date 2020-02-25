@@ -1,35 +1,21 @@
 
+(* MATER Mate searching program v1.1 (c) Valentin Albillo 1998 *)
+
 uses
   SysUtils, MaterCore, CommandLine;
-
-procedure Log(const ALine: string; const ARewrite: boolean = FALSE);
-var
-  LFilename: TFilename;
-  LFile: TextFile;
-begin
-  LFilename := ChangeFileExt({$I %FILE%}, '.log');
-  Assign(LFile, LFilename);
-  if ARewrite or not FileExists(LFileName) then
-    Rewrite(LFile)
-  else
-    Append(LFile);
-  WriteLn(LFile, ALine);
-  Close(LFile);
-end;
 
 var
   LEpd: string;
   LDepth: integer;
-  LCheck: boolean;
+  LSearchMode: TSearchMode;
   LNeedHelp: boolean;
   LResult: string;
+  LResultDepth: integer;
   
 begin
-  WriteLn('MATER Mate searching program v1.1 (c) Valentin Albillo 1998');
-  
   LEpd := '';
   LDepth := 0;
-  LCheck := FALSE;
+  LSearchMode := smAllMoves;
   LNeedHelp := FALSE;
   if HasOption('p', 'position') then
     LEpd := GetOptionValue('p', 'position')
@@ -40,7 +26,7 @@ begin
   else
     LNeedHelp := TRUE;
   if HasOption('c', 'check') then
-    LCheck := TRUE;
+    LSearchMode := smChecks;
   
   if LNeedHelp then
     WriteLn(Concat(
@@ -50,10 +36,10 @@ begin
     ))
   else
   begin
-    LResult := SolveMate(LEpd, LDepth, LCheck);;
+    LResult := SolveMate(LEpd, LDepth, LSearchMode, LResultDepth);
     if LResult = '' then
       WriteLn('No mate found')
     else
-      WriteLn('Result: ', LResult);
+      WriteLn(Format('Mate found in %d moves: %s', [LResultDepth, LResult]));
   end;
 end.

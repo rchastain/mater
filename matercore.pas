@@ -15,17 +15,20 @@ unit MaterCore;
 
 interface
 
+type
+  TSearchMode = (smAllMoves, smChecks);
+
 function SolveMate(
   const AFen: string;
   const AMaxMovesNumber: integer;
-  const ACheckOnly: boolean;
+  const ASearchMode: TSearchMode;
   var AMovesNumber: integer
 ): string; overload;
 
 function SolveMate(
   const AFen: string;
   const AMaxMovesNumber: integer;
-  const ACheckOnly: boolean
+  const ASearchMode: TSearchMode = smAllMoves
 ): string; overload;
 
 implementation
@@ -376,7 +379,7 @@ procedure GenerateMoves(
   const ASquare: integer;
   var AMoves: TMoveArray;
   var AMovesCount: integer;
-  AKingSquare, AOpponentKingSquare: integer;
+  AKingSquare, AEnemyKingSquare: integer;
   const ALegal: boolean;
   const ASingle: boolean;
   var AFound: boolean
@@ -397,7 +400,7 @@ var
         FBoard[ASquare] := cBlank;
         if AClass = -1 * CEnPassant then
           FBoard[s + CPawnVector[1] * AColor] := cBlank;
-        if InCheck(AColor, AKingSquare, AOpponentKingSquare) then
+        if InCheck(AColor, AKingSquare, AEnemyKingSquare) then
         begin
           LPosition := r;
           Exit;
@@ -460,10 +463,10 @@ var
         for i := Succ(AKingSquare) to AKingSquare + 2 do
           if FBoard[i] <> cBlank then
             goto sig;
-        if InCheck(AColor, AKingSquare, AOpponentKingSquare) then
+        if InCheck(AColor, AKingSquare, AEnemyKingSquare) then
           Exit;
         for i := Succ(AKingSquare) to AKingSquare + 2 do
-          if InCheck(AColor, i, AOpponentKingSquare) then
+          if InCheck(AColor, i, AEnemyKingSquare) then
             goto sig;
         if ASingle then
         begin
@@ -485,10 +488,10 @@ var
         for i := AKingSquare - 3 to Pred(AKingSquare) do
           if FBoard[i] <> cBlank then
             Exit;
-        if InCheck(AColor, AKingSquare, AOpponentKingSquare) then
+        if InCheck(AColor, AKingSquare, AEnemyKingSquare) then
           Exit;
         for i := AKingSquare - 2 to Pred(AKingSquare) do
-          if InCheck(AColor, i, AOpponentKingSquare) then
+          if InCheck(AColor, i, AEnemyKingSquare) then
             Exit;
         if ASingle then
         begin
@@ -669,7 +672,7 @@ begin
   end;
 end;
 
-function AnyMoveSide(const AColor: integer; var AData: TAuxData; const AKingSquare, AOpponentKingSquare: integer): boolean;
+function AnyMoveSide(const AColor: integer; var AData: TAuxData; const AKingSquare, AEnemyKingSquare: integer): boolean;
 var
   i, LCount: integer;
   LMoves: TMoveArray;
@@ -683,7 +686,7 @@ begin
       LMoves,
       LCount,
       AKingSquare,
-      AOpponentKingSquare,
+      AEnemyKingSquare,
       TRUE,
       TRUE,
       LFound
@@ -702,7 +705,7 @@ begin
           LMoves,
           LCount,
           AKingSquare,
-          AOpponentKingSquare,
+          AEnemyKingSquare,
           TRUE,
           TRUE,
           LFound
@@ -855,7 +858,7 @@ begin
   i := ADepth;
   while (i <= AMaxDepth) and not result do
   begin
-    WriteLn('Searching mate in ', i, '...');
+    Log(Format('Searching mate in %d...', [i]));
     if FindMate(AColor, 1, i, AMove, ACheckOnly) then
     begin
       result := TRUE;
@@ -900,9 +903,13 @@ begin
       result := Concat(SquareToStr(FFrom), SquareToStr(FTo), ClassToStr(FClass));
 end;
 
-function SolveMate(const AFen: string; const AMaxMovesNumber: integer; const ACheckOnly: boolean; var AMovesNumber: integer): string;
+function SolveMate(const AFen: string; const AMaxMovesNumber: integer; const ASearchMode: TSearchMode; var AMovesNumber: integer): string;
 const
-  COption: array[boolean] of string = ('all moves', 'check sequence');
+  CProgramName =
+    '=============================================================' + LineEnding +
+    ' MATER Mate searching program v1.1 (c) Valentin Albillo 1998 ' + LineEnding +
+    '=============================================================';
+  CSearchModeStr: array[TSearchMode] of string = ('all moves', 'only checks');
 var
   LMoveDepth: integer;
   LActiveColor: integer;
@@ -913,9 +920,9 @@ begin
   LTime := GetTickCount64;
   if LoadPosition(AFen, LActiveColor) then
   begin
-    WriteLn(PosToStr(LPosition));
-    WriteLn('Search mode: ', COption[ACheckOnly]);
-    WriteLn('Maximum moves number: ', AMaxMovesNumber);
+    Log(Format('%s%s%s%s', [LineEnding, CProgramName, LineEnding, PosToStr(LPosition)]));
+    Log(Format('Search mode: %s', [CSearchModeStr[ASearchMode]]));
+    Log(Format('Maximum moves number: %d', [AMaxMovesNumber]));
     LNodes := 0;
     if SearchMate(
       LActiveColor,
@@ -923,25 +930,25 @@ begin
       AMaxMovesNumber,
       LMoveDepth,
       LMove,
-      ACheckOnly
+      ASearchMode = smChecks
     ) then
     begin
       result := FormatMove(LMove);
-      WriteLn('Result: ', result);
+      Log(Format('Found mate in %d moves: %s', [LMoveDepth, result]));
       LTime := GetTickCount64 - LTime;
-      WriteLn('Time elapsed: ', FormatDateTime('hh:nn:ss:zzz', LTime / (1000 * SECSPERDAY)));
-      WriteLn('Nodes: ', LNodes);
+      Log(FormatDateTime('"Time elapsed: "hh:nn:ss:zzz', LTime / (1000 * SECSPERDAY)));
+      Log(Format('Nodes: %d', [LNodes]));
       AMovesNumber := LMoveDepth;
     end else
-      WriteLn('No mate found in ', AMaxMovesNumber, '.');
+      Log(Format('No mate found in %d moves.', [AMaxMovesNumber]));
   end;
 end;
 
-function SolveMate(const AFen: string; const AMaxMovesNumber: integer; const ACheckOnly: boolean): string;
+function SolveMate(const AFen: string; const AMaxMovesNumber: integer; const ASearchMode: TSearchMode): string;
 var
   LMovesNumber: integer;
 begin
-  result := SolveMate(AFen, AMaxMovesNumber, ACheckOnly, LMovesNumber);
+  result := SolveMate(AFen, AMaxMovesNumber, ASearchMode, LMovesNumber);
 end;
 
 const
