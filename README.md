@@ -21,7 +21,6 @@ Here are eight problems coming from *Mater* original website. These problems are
     Search mode: all moves
     Maximum moves number: 3
     Result: b7a8n
-    Time elapsed: 00:00:00:010
 
 ### Position 2
 
@@ -32,7 +31,6 @@ Here are eight problems coming from *Mater* original website. These problems are
     Search mode: all moves
     Maximum moves number: 3
     Result: h6c1
-    Time elapsed: 00:00:00:004
 
 ### Position 3
 
@@ -43,7 +41,6 @@ Here are eight problems coming from *Mater* original website. These problems are
     Search mode: all moves
     Maximum moves number: 4
     Result: d6c7
-    Time elapsed: 00:00:00:053
 
 ### Position 4
 
@@ -54,7 +51,6 @@ Here are eight problems coming from *Mater* original website. These problems are
     Search mode: all moves
     Maximum moves number: 4
     Result: f6d5
-    Time elapsed: 00:00:01:395
 
 ### Position 5
 
@@ -65,7 +61,6 @@ Here are eight problems coming from *Mater* original website. These problems are
     Search mode: all moves
     Maximum moves number: 3
     Result: h7g7
-    Time elapsed: 00:00:00:005
 
 ### Position 6
 
@@ -76,7 +71,6 @@ Here are eight problems coming from *Mater* original website. These problems are
     Search mode: all moves
     Maximum moves number: 3
     Result: b7b8r
-    Time elapsed: 00:00:00:012
 
 ### Position 7
 
@@ -87,7 +81,6 @@ Here are eight problems coming from *Mater* original website. These problems are
     Search mode: all moves
     Maximum moves number: 3
     Result: e7e8b
-    Time elapsed: 00:00:00:008
 
 ### Position 8
 
@@ -98,7 +91,6 @@ Here are eight problems coming from *Mater* original website. These problems are
     Search mode: check sequence
     Maximum moves number: 12
     Result: h3g5
-    Time elapsed: 00:00:00:036
 
 As you can see, *Mater* has two search modes: either he searches for all moves, or he only searches for checkmate by consecutive checks (as in the last example).
 
@@ -108,3 +100,28 @@ As you can see, *Mater* has two search modes: either he searches for all moves, 
 
     mater -position {3nn3/2p2p1k/1p1pp1p1/p2B3p/r2B2N1/7N/8/7K w KQkq -} -moves 12 -check
     mater -p {3nn3/2p2p1k/1p1pp1p1/p2B3p/r2B2N1/7N/8/7K w KQkq -} -m 12 -c
+
+## Compilation
+
+*Mater* is compiled with Free Pascal.
+
+    fpc -Mobjfpc -Sh -Fulibrary -Fulibrary/flre/src mater.pas
+
+## Links
+
+  * [Alybadix](https://alybadix.000webhostapp.com)
+  * [APwin](https://alybadix.000webhostapp.com/apwin.htm)
+  * [Chest](http://turbotm.de/~heiner/Chess/chest.html)
+  * [Chest UCI](https://fhub.jimdofree.com)
+  * [Euclide](https://github.com/svart-riddare/euclide)
+  * [Fancy](https://www.wfcc.ch/software/)
+  * [Jacobi](http://wismuth.com/jacobi/)
+  * [Mater UCI](https://fhub.jimdofree.com)
+  * [Natch](http://natch.free.fr/Natch.html)
+  * [Olive GUI](https://github.com/dturevski/olive-gui)
+  * [Popeye](https://github.com/thomas-maeder/popeye)
+  * [Problemist](https://problemiste.pagesperso-orange.fr)
+  * [Teddy](http://problemskak.dk/download-Teddy.php)
+  * [WinChloe](http://winchloe.free.fr)
+
+
