@@ -14,7 +14,7 @@ Here are eight problems coming from *Mater* original website. These problems are
 
 ### Position 1
 
-    b7/PP6/8/8/7K/6B1/6N1/4R1bk w KQkq -
+    b7/PP6/8/8/7K/6B1/6N1/4R1bk w - -
 
 ![alt text](pictures/position1.png)
 
@@ -24,7 +24,7 @@ Here are eight problems coming from *Mater* original website. These problems are
 
 ### Position 2
 
-    8/8/1p5B/4p3/1p2k1P1/1P3n2/P4PB1/K2R4 w KQkq -
+    8/8/1p5B/4p3/1p2k1P1/1P3n2/P4PB1/K2R4 w - -
 
 ![alt text](pictures/position2.png)
 
@@ -34,7 +34,7 @@ Here are eight problems coming from *Mater* original website. These problems are
 
 ### Position 3
 
-    2N5/8/k2K4/8/p1PB4/P7/8/8 w KQkq -
+    2N5/8/k2K4/8/p1PB4/P7/8/8 w - -
 
 ![alt text](pictures/position3.png)
 
@@ -44,7 +44,7 @@ Here are eight problems coming from *Mater* original website. These problems are
 
 ### Position 4
 
-    rnbK2R1/p6p/p1kNpN1r/P3B1Q1/3P1p1p/5p2/5p1b/8 w KQkq -
+    rnbK2R1/p6p/p1kNpN1r/P3B1Q1/3P1p1p/5p2/5p1b/8 w - -
 
 ![alt text](pictures/position4.png)
 
@@ -54,7 +54,7 @@ Here are eight problems coming from *Mater* original website. These problems are
 
 ### Position 5
 
-    8/1n2P2K/3p2p1/2p3pk/6pr/4ppr1/6p1/1b6 w KQkq -
+    8/1n2P2K/3p2p1/2p3pk/6pr/4ppr1/6p1/1b6 w - -
 
 ![alt text](pictures/position5.png)
 
@@ -64,7 +64,7 @@ Here are eight problems coming from *Mater* original website. These problems are
 
 ### Position 6
 
-    4K1R1/PP2P3/2k5/3pP3/3B4/6P1/8/8 w KQkq -
+    4K1R1/PP2P3/2k5/3pP3/3B4/6P1/8/8 w - -
 
 ![alt text](pictures/position6.png)
 
@@ -74,7 +74,7 @@ Here are eight problems coming from *Mater* original website. These problems are
 
 ### Position 7
 
-    8/2P1P1P1/3PkP2/8/4K3/8/8/8 w Qkq -
+    8/2P1P1P1/3PkP2/8/4K3/8/8/8 w - -
 
 ![alt text](pictures/position7.png)
 
@@ -84,7 +84,7 @@ Here are eight problems coming from *Mater* original website. These problems are
 
 ### Position 8
 
-    3nn3/2p2p1k/1p1pp1p1/p2B3p/r2B2N1/7N/8/7K w KQkq -
+    3nn3/2p2p1k/1p1pp1p1/p2B3p/r2B2N1/7N/8/7K w - -
 
 ![alt text](pictures/position8.png)
 
@@ -98,8 +98,8 @@ As you can see, *Mater* has two search modes: either he searches for all moves, 
 
 *Mater* expects at less two parameters: the position (in the EPD format) and the moves number. A third parameter can be used to change the search mode, so that only mates by consecutive checks are searched.
 
-    mater -position {3nn3/2p2p1k/1p1pp1p1/p2B3p/r2B2N1/7N/8/7K w KQkq -} -moves 12 -check
-    mater -p {3nn3/2p2p1k/1p1pp1p1/p2B3p/r2B2N1/7N/8/7K w KQkq -} -m 12 -c
+    mater -position "3nn3/2p2p1k/1p1pp1p1/p2B3p/r2B2N1/7N/8/7K w KQkq -" -moves 12 -check
+    mater -p "3nn3/2p2p1k/1p1pp1p1/p2B3p/r2B2N1/7N/8/7K w KQkq -" -m 12 -c
 
 ## Compilation
 
