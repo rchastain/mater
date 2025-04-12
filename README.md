@@ -1,3 +1,3 @@
 # Mater
 
-Project moved to https://gitlab.com/rchastain/mater
+Project moved to [Codeberg](https://codeberg.org/rchastain/mater).
